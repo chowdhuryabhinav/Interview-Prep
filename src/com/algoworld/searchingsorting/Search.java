@@ -63,6 +63,7 @@ public class Search {
     private static int binaryRecursive(int[] arr, int left, int right, int element){
         if(right>=left){
             int mid = left+(right-left)/2;
+            System.out.println(mid);
             if(element==arr[mid])
                 return mid;
             if(element>arr[mid])
@@ -102,5 +103,23 @@ public class Search {
             return prev;
             
         return -1;
+    }
+
+    private static int interpolation(int[] arr, int element, int hi, int lo){
+        if(lo<=hi && element<=arr[hi] && element>=arr[lo]){
+            int pos = lo + (((hi-lo)*(element-arr[lo])) / (arr[hi]-arr[lo]));
+            System.out.println(pos);
+            if(arr[pos]==element)
+                return pos;
+            if(arr[pos]>element)
+                return interpolation(arr, element, pos-1, lo);
+            if(arr[pos]<element)
+                return interpolation(arr, element, hi, pos+1);
+        }
+        return -1;
+    }
+
+    public static int interpolation(int[] arr, int element){
+        return interpolation(arr, element, arr.length-1, 0);
     }
 }
