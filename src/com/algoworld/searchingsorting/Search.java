@@ -108,7 +108,6 @@ public class Search {
     private static int interpolation(int[] arr, int element, int hi, int lo){
         if(lo<=hi && element<=arr[hi] && element>=arr[lo]){
             int pos = lo + (((hi-lo)*(element-arr[lo])) / (arr[hi]-arr[lo]));
-            System.out.println(pos);
             if(arr[pos]==element)
                 return pos;
             if(arr[pos]>element)
@@ -121,5 +120,35 @@ public class Search {
 
     public static int interpolation(int[] arr, int element){
         return interpolation(arr, element, arr.length-1, 0);
+    }
+    public static int exponential(int[] arr, int element){
+        if(element == arr[0])
+            return 0;
+        int i = 1;
+        int n = arr.length;
+        while(i < n && arr[i]<=element){
+            i *= 2;
+        }
+        return binaryRecursive(arr, i/2, Math.min(i,n-1), element);
+    }
+
+    private static int ternary(int[] arr, int element, int left, int right){
+        if(right>=left){
+            int mid1 = left + (right-left) / 3;
+            int mid2 = mid1 + (right-left) / 3;
+            if(arr[mid1]==element)
+                return mid1;
+            if(arr[mid2]==element)
+                return mid2;
+            if(element<arr[mid1])
+                return ternary(arr, element, left, mid1-1);
+            if(element>arr[mid2])
+                return ternary(arr, element, mid2+1, right);
+            return ternary(arr, element, mid1+1, mid2-1);
+        }
+        return -1;
+    }
+    public static int ternary(int[] arr, int element){
+        return ternary(arr, element, 0, arr.length-1);
     }
 }
